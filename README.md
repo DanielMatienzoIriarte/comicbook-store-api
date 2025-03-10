@@ -66,7 +66,22 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 ## permissions
-install spatie/laravel-permissions
+composer require spatie/laravel-permissions
+
 php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+
 php artisan migrate
-https://filamentphp.com/plugins/bezhansalleh-shield#4-install-for-panel
+
+composer require bezhansalleh/filament-shield
+
+php artisan vendor:publish --tag="filament-shield-config"
+
+Add the HasRoles trait to your auth provider model
+
+php artisan shield:setup
+
+php artisan shield:install admin
+
+Create super-admin user executing:
+
+php artisan make:filament-user
