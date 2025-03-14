@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class ComicBookType extends Model
+class Type extends Model
 {
-    public function types(): BelongsToMany
+    public function comicBooks(): BelongsToMany
     {
-        return $this->belongsToMany(ComicBookType::class, 'comic_books_types');
+        return $this->belongsToMany(ComicBook::class, 'comic_books_types', 'comic_book_id', 'type_id');
     }
 }

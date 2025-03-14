@@ -7,8 +7,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ComicBook extends Model
 {
-    public function comicBooks(): BelongsToMany
+    protected $fillable = [
+        'name',
+        'description',
+        'types',
+    ];
+
+    protected $guarded = [];
+
+    public function types(): BelongsToMany
     {
-        return $this->belongsToMany(ComicBook::class, 'comic_books_types');
+        return $this->belongsToMany(Type::class, 'comic_books_types', 'comic_book_id', 'type_id');
     }
 }
