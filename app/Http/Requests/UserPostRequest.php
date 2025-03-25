@@ -11,7 +11,7 @@ class UserPostRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,8 @@ class UserPostRequest extends FormRequest
     {
         return [
             'fullname'=> 'required|min:6|max:50',
-            'email' => 'required|unique|min:9|max:150|regex:/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i',
-            'password' => 'required|min:8|max:16|regex:^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$,'
+            'email' => 'required|unique:users|min:9|max:150|regex:/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i',
+            'password' => 'required|min:8|max:16|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d){1,}(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]{8,16}$/'
         ];
     }
 
@@ -36,6 +36,9 @@ class UserPostRequest extends FormRequest
     public function messages(): array
 {
     return [
+        'fullname.max' => 'Full name is too long',
+        'fullname.min' => 'Full name is too short',
+        'email.min' => 'Email is too short',
         'email.regex' => 'Email is not valid',
         'password.regex' => 'Password is not valid',
     ];

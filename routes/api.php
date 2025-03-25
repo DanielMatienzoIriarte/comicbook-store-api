@@ -6,5 +6,6 @@ use App\Http\Controllers\Api\UserController;
 Route::prefix('admin')->group(function() {
     Route::get('',);
 });
+
 Route::post('/user', [UserController::class, 'Post'])
     ->name('user.post');
