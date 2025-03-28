@@ -14,3 +14,5 @@ Route::get('/user/{id}', [UserController::class, 'getById'])
     ->name('user.getById');
 Route::post('/user', [UserController::class, 'post'])
     ->name('user.post');
+Route::get('/user/logout', [UserAuthController::class, 'logout'])
+    ->name('user.logout');
