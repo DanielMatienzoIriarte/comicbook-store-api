@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ComicBookController as ApiBookController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\UserAuthController;
@@ -16,3 +17,5 @@ Route::post('/user', [UserController::class, 'post'])
     ->name('user.post');
 Route::get('/user/logout', [UserAuthController::class, 'logout'])
     ->name('user.logout');
+Route::get('/book', [ApiBookController::class, 'getAll'])
+    ->name('books.all');
