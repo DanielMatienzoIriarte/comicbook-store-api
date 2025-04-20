@@ -17,5 +17,7 @@ Route::post('/user', [UserController::class, 'post'])
     ->name('user.post');
 Route::get('/user/logout', [UserAuthController::class, 'logout'])
     ->name('user.logout');
+Route::get('/books', [ApiBookController::class, 'paginate'])
+    ->name('books.paginate');
 Route::get('/book', [ApiBookController::class, 'getAll'])
     ->name('books.all');
