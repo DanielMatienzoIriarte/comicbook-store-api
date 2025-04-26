@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Responses\ClientErrorResponse;
 use App\Http\Responses\ValidResponse;
 use App\Models\ComicBook;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Support\Responsable;
 //use Illuminate\Support\Facades\Config;
@@ -17,7 +18,7 @@ class ComicBookController extends Controller
      * 
      * @return \Illuminate\Contracts\Support\Responsable
      */
-    public function getLastBooks(Request $request, int $limit): Responsable
+    public function getLastBooks(Request $request, int $limit=6): Responsable
     {
         $books = ComicBook::latest()
             ->where('status', 1)
@@ -52,6 +53,7 @@ class ComicBookController extends Controller
     }
 
     /**
+     * Get all books paginated
      * @param Request $request
      * @param string $page
      * @return \Illuminate\Contracts\Support\Responsable
@@ -87,9 +89,63 @@ class ComicBookController extends Controller
             return new ClientErrorResponse(
                 [
                     'status' => 'error',
-                    $exception->getMessage(),
+                    'message' => $exception->getMessage(),
                 ],
-                404,
+                404
+            );
+        }
+    }
+
+    /**
+     * get all books by a set of params
+     * @param Request $request
+     * @return Responsable
+     */
+    public function getByParams(Request $request) : Responsable
+    {
+        if ($request->has('params')) {
+            $params = $request->get('params');
+
+            $comicBooks = ComicBook::where()
+                ->get();
+            
+                return new ValidResponse(
+                    [
+                        'status' => 'ok',
+                        'books' => $comicBooks,
+                    ]
+                );
+        } else {
+            return new ClientErrorResponse(
+                [
+                    'status' => 'error',
+                    'message' => 'missing params',
+                ],
+            );
+        }
+    }
+
+    public function getByCategory(Request $request, string $category)
+    {
+        if (isset($category)) {
+            $comicBooks = ComicBook::whereHas(
+                'categories', function($q) use($category){
+                    $q->where('id', (int)$category);
+                }
+            )->get();
+
+            return new ValidResponse(
+                [
+                    'status' => 'ok',
+                    'books' => $comicBooks,
+                ]
+                );
+        } else {
+            return new ClientErrorResponse(
+                [
+                    'status' => 'error',
+                    'message' => 'missing params',
+                ],
             );
         }
     }

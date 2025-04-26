@@ -15,8 +15,19 @@ class ComicBook extends Model
 
     protected $guarded = [];
 
+    /**
+     * The types a book has
+     */
     public function types(): BelongsToMany
     {
-        return $this->belongsToMany(Type::class, 'comic_books_types', 'comic_book_id', 'type_id');
+        return $this->belongsToMany(Type::class, 'comic_books_types', 'comic_book_id', 'id');
+    }
+
+    /**
+     * The categories a book has
+     */
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, 'comic_books_categories', 'comic_book_id', 'category_id');
     }
 }
