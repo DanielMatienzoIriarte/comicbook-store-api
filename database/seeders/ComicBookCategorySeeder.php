@@ -18,15 +18,17 @@ class ComicBookCategorySeeder extends Seeder
             'name' => 'Science Fiction',
             'description' => 'science fiction',
         ]);
-
         DB::table('categories')->insert([
             'name' => 'Horror',
             'description' => 'horror',
         ]);
-
         DB::table('categories')->insert([
             'name' => 'Fantasy',
             'description' => 'fantasy',
+        ]);
+        DB::table('categories')->insert([
+            'name' => 'Action',
+            'description' => 'Action',
         ]);
     }
 }
