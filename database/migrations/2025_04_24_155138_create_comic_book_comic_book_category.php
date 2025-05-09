@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('comic_books_categories', function (Blueprint $table) {
             $table->foreignIdFor(ComicBook::class);
             $table->foreignIdFor(Category::class);
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')
+                ->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
     }
 
