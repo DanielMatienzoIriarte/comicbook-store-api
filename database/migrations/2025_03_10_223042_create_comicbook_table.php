@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
+            $table->string('publisher');
             $table->string('format');
+            $table->string('cover');
             $table->boolean('status')->default(1);
             $table->timestamps();
         });

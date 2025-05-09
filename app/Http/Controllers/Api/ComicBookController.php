@@ -53,7 +53,8 @@ class ComicBookController extends Controller
     }
 
     /**
-     * Get all books paginated
+     * Get all books paginate
+     * 
      * @param Request $request
      * @param string $page
      * @return \Illuminate\Contracts\Support\Responsable
@@ -98,6 +99,7 @@ class ComicBookController extends Controller
 
     /**
      * get all books by a set of params
+     * 
      * @param Request $request
      * @return Responsable
      */
@@ -125,7 +127,14 @@ class ComicBookController extends Controller
         }
     }
 
-    public function getByCategory(Request $request, string $category)
+    /**
+     * Returns comic books by category
+     * 
+     * @param Request $request
+     * @param string $category
+     * @return Reponsable
+     */
+    public function getByCategory(Request $request, string $category): Responsable
     {
         if (isset($category)) {
             $comicBooks = ComicBook::whereHas(
@@ -146,6 +155,72 @@ class ComicBookController extends Controller
                     'status' => 'error',
                     'message' => 'missing params',
                 ],
+            );
+        }
+    }
+
+    /**
+     * Search comic books by criteria
+     * 
+     * @param Request $request
+     * @param string $criteria
+     * @return Reponsable
+     */
+    public function search(Request $request, string $criteria): Responsable
+    {
+        $statusField = ['status', 1];
+
+        if(isset($criteria)) {
+            $criteriaFields = ['name', 'LIKE', "%{$criteria}%"];
+        }
+
+        $comicBooks = ComicBook::where([$criteriaFields, $statusField ])->get();
+
+        return new ValidResponse(
+            [
+                'status' => 'OK',
+                'data' => $comicBooks,
+            ]
+        );
+    }
+
+    /**
+     * Search comic books by Id
+     * 
+     * @param Request $request
+     * @param string $id
+     * @return Reponsable
+     */
+    public function getById(Request $request, string $id): Responsable
+    {
+        $statusField = ['status', 1];
+
+        if(!isset($id)) {
+            return new ClientErrorResponse(
+                [
+                    'status' => 'error',
+                    'message' => 'missing params',
+                ],
+            );   
+        }
+
+        try {
+            $book = ComicBook::where([['id', '=', $id], $statusField])
+                ->first();
+
+            return new ValidResponse(
+                [
+                    'status' => 'OK',
+                    'data' => $book,
+                ]
+            );
+        } catch (\Exception $exception) {
+            return new ClientErrorResponse(
+                [
+                    'status' => 'error',
+                    'message' => $exception->getMessage(),
+                ],
+                404
             );
         }
     }

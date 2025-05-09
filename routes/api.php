@@ -31,4 +31,8 @@ Route::prefix('/books')->group(function() {
         ->name('categories.all');
     Route::get('/by-category/{id}', [ApiBookController::class, 'getByCategory'])
         ->name('categories.allBooks');
+    Route::get('/search/{criteria}', [ApiBookController::class, 'search'])
+        ->name('categories.search');
+    Route::get('/{id}', [ApiBookController::class, 'getById'])
+        ->name('books.byId');
 });

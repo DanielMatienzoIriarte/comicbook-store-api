@@ -9,8 +9,12 @@ class ComicBook extends Model
 {
     protected $fillable = [
         'name',
+        'publisher',
         'description',
+        'format',
+        'cover',
         'types',
+        'categories',
     ];
 
     protected $guarded = [];
@@ -20,7 +24,7 @@ class ComicBook extends Model
      */
     public function types(): BelongsToMany
     {
-        return $this->belongsToMany(Type::class, 'comic_books_types', 'comic_book_id', 'id');
+        return $this->belongsToMany(Type::class, 'comic_books_types', 'comic_book_id', 'type_id');
     }
 
     /**
